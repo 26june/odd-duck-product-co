@@ -52,3 +52,17 @@ section {
   grid-row: 3 / 4;
   background-color: lightgreen;
 }
+
+#grid-area img {
+  align-self: center;
+  justify-self: center;
+  max-height: 100%;
+  object-fit: contain;
+  overflow-y: hidden;
+
+  /* ^ cover stretches to container */
+}
+
+p {
+  height: 100%;
+}
