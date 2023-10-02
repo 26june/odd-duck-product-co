@@ -29,9 +29,20 @@ function displayProduct() {
     k = generateIndex();
   }
 
-  leftImage.src = allProducts[i].imgPath;
-  midImage.src = allProducts[j].imgPath;
-  rightImage.src = allProducts[k].imgPath;
+  leftImage.src = leftImage.alt = allProducts[i].imgPath;
+  midImage.src = midImage.alt = allProducts[j].imgPath;
+  rightImage.src = midImage.alt = allProducts[k].imgPath;
+
+  allProducts[i].imgShowCount++;
+  allProducts[j].imgShowCount++;
+  allProducts[k].imgShowCount++;
 }
 
 displayProduct();
+
+gridArea.addEventListener("click", handleProductClick);
+
+function handleProductClick(event) {
+  console.log(event);
+  alert("Clicked");
+}
