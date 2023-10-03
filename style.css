@@ -19,8 +19,8 @@ footer {
 #grid-area {
   display: grid;
 
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 4fr 0.75fr 4fr;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: minmax(0, 4fr) minmax(0, 0.75fr) minmax(0, 4fr);
 }
 
 section {
@@ -43,6 +43,16 @@ section {
   overflow-y: hidden;
 
   /* ^ cover stretches to container */
+}
+
+#imgSection {
+  grid-column: 2 / span 3;
+  grid-row: 1 / 2;
+  background-color: crimson;
+
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: minmax(0, 1fr);
 }
 
 p {
