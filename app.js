@@ -6,32 +6,39 @@ const leftImage = document.getElementById("left");
 const midImage = document.getElementById("mid");
 const rightImage = document.getElementById("right");
 
+//ul
+const ul = document.getElementById("score-counter");
+
+//vars
+let voteCounter = 0;
+
 function newProduct(productName, imgPath) {
   this.productName = productName;
   this.imgPath = imgPath;
   this.imgShowCount = 0;
+  this.imgClickCount = 0;
 }
 
 const allProducts = [
-  new newProduct("bag", "./assets/bag.jpg"),
-  new newProduct("banana", "./assets/banana.jpg"),
-  new newProduct("bathroom", "./assets/bathroom.jpg"),
-  new newProduct("boots", "./assets/boots.jpg"),
-  new newProduct("breakfast", "./assets/breakfast.jpg"),
-  new newProduct("bubblegum", "./assets/bubblegum.jpg"),
-  new newProduct("chair", "./assets/chair.jpg"),
-  new newProduct("cthulu", "./assets/cthulhu.jpg"),
-  new newProduct("dog-duck", "./assets/dog-duck.jpg"),
-  new newProduct("dragon", "./assets/dragon.jpg"),
-  new newProduct("pen", "./assets/pen.jpg"),
-  new newProduct("pet-sweep", "./assets/pet-sweep.jpg"),
-  new newProduct("scissors", "./assets/scissors.jpg"),
-  new newProduct("shark", "./assets/shark.jpg"),
-  new newProduct("sweep", "./assets/sweep.png"),
-  new newProduct("tauntaun", "./assets/tauntaun.jpg"),
-  new newProduct("unicorn", "./assets/unicorn.jpg"),
-  new newProduct("water-can", "./assets/water-can.jpg"),
-  new newProduct("wine-glass", "./assets/wine-glass.jpg"),
+  new newProduct("Bag", "./assets/bag.jpg"),
+  new newProduct("Banana", "./assets/banana.jpg"),
+  new newProduct("Bathroom", "./assets/bathroom.jpg"),
+  new newProduct("Boots", "./assets/boots.jpg"),
+  new newProduct("Breakfast", "./assets/breakfast.jpg"),
+  new newProduct("Bubblegum", "./assets/bubblegum.jpg"),
+  new newProduct("Chair", "./assets/chair.jpg"),
+  new newProduct("Cthulu", "./assets/cthulhu.jpg"),
+  new newProduct("Dog-duck", "./assets/dog-duck.jpg"),
+  new newProduct("Dragon", "./assets/dragon.jpg"),
+  new newProduct("Pen", "./assets/pen.jpg"),
+  new newProduct("Pet-sweep", "./assets/pet-sweep.jpg"),
+  new newProduct("Scissors", "./assets/scissors.jpg"),
+  new newProduct("Shark", "./assets/shark.jpg"),
+  new newProduct("Sweep", "./assets/sweep.png"),
+  new newProduct("Tauntaun", "./assets/tauntaun.jpg"),
+  new newProduct("Unicorn", "./assets/unicorn.jpg"),
+  new newProduct("Water-can", "./assets/water-can.jpg"),
+  new newProduct("Wine-glass", "./assets/wine-glass.jpg"),
 ];
 
 function generateIndex() {
@@ -50,25 +57,44 @@ function displayProduct() {
 
   leftImage.src = leftImage.alt = allProducts[i].imgPath;
   midImage.src = midImage.alt = allProducts[j].imgPath;
-  rightImage.src = midImage.alt = allProducts[k].imgPath;
+  rightImage.src = rightImage.alt = allProducts[k].imgPath;
 
   allProducts[i].imgShowCount++;
   allProducts[j].imgShowCount++;
   allProducts[k].imgShowCount++;
 }
 
-displayProduct();
-
 imgSection.addEventListener("click", handleProductClick);
 
 function handleProductClick({ target }) {
-  if (target === leftImage) {
-    console.log(leftImage.alt);
-  } else if (target === midImage) {
-    console.log("Clicked Mid");
-  } else if (target === rightImage) {
-    console.log("Clicked Right");
-  } else {
-    console.log("Clicked on the container");
+  allProducts.forEach((e) => {
+    if (e.imgPath === target.alt) {
+      e.imgClickCount++;
+    }
+  });
+  voteCounter === 24 ? voteLimiter() : voteCounter++;
+
+  displayProduct();
+}
+
+function showScore() {
+  if (ul.children.length !== 0) {
+    ul.innerHTML = "";
+  }
+
+  for (let i = 0; i < allProducts.length; i++) {
+    let { productName, imgShowCount, imgClickCount } = allProducts[i];
+
+    const li = document.createElement("li");
+
+    li.textContent = `${productName} [View: ${imgShowCount}, Clicks: ${imgClickCount}]`;
+    ul.appendChild(li);
   }
 }
+
+function voteLimiter() {
+  imgSection.removeEventListener("click", handleProductClick);
+  showScore();
+}
+
+displayProduct();
