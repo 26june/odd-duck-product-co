@@ -54,7 +54,7 @@ section {
 #imgSection {
   grid-column: 2 / span 3;
   grid-row: 1 / 2;
-  background-color: crimson;
+  background-color: white;
 
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -78,7 +78,7 @@ p {
 }
 
 canvas {
-  height: 100%;
-  width: 100%;
+  max-height: 100%;
+  max-width: 100%;
   grid-column: 1 / span 3;
 }
