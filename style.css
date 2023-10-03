@@ -78,6 +78,7 @@ p {
 }
 
 canvas {
+  justify-self: center;
   max-height: 100%;
   max-width: 100%;
   grid-column: 1 / span 3;

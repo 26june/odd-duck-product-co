@@ -137,15 +137,12 @@ function voteLimiter() {
     },
     options: {
       scales: {
-        y: [
-          {
-            display: true,
-            ticks: {
-              suggestedMin: 0,
-              beginAtZero: true,
-            },
+        y: {
+          beginAtZero: true, // Start the y-axis at zero
+          ticks: {
+            stepSize: 1, // Set the step size to 1 for whole numbers
           },
-        ],
+        },
       },
     },
   });
