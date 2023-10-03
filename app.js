@@ -72,7 +72,7 @@ function handleProductClick({ target }) {
       e.imgClickCount++;
     }
   });
-  voteCounter === 24 ? voteLimiter() : voteCounter++;
+  voteCounter === 2 ? voteLimiter() : voteCounter++;
 
   displayProduct();
 }
@@ -93,8 +93,62 @@ function showScore() {
 }
 
 function voteLimiter() {
+  //Limits vote / Start Chart JS
   imgSection.removeEventListener("click", handleProductClick);
   showScore();
+  imgSection.innerHTML = "";
+
+  const myCanvas = document.createElement("canvas"); //make canvas element
+  myCanvas.setAttribute("id", "chart-area"); // put and id on the canvas
+  imgSection.appendChild(myCanvas); // appended canvas to section+
+
+  const chartLabels = [[], [], []];
+  allProducts.forEach((e) => {
+    chartLabels[0].push(e.productName);
+    chartLabels[1].push(e.imgClickCount);
+    chartLabels[2].push(e.imgShowCount);
+  });
+
+  console.log(chartLabels[1]);
+
+  new Chart("chart-area", {
+    type: "bar",
+    data: {
+      labels: chartLabels[0],
+      datasets: [
+        {
+          label: "Click Count",
+          data: chartLabels[1],
+          borderWidth: 1,
+          order: 0,
+        },
+        {
+          label: "View Count",
+          data: chartLabels[2],
+          borderWidth: 1,
+          order: 1,
+          type: "line",
+          fill: false,
+          tension: 0,
+          borderColor: "rgb(255, 0, 0)",
+        },
+      ],
+      borderWidth: 1,
+    },
+    options: {
+      scales: {
+        y: [
+          {
+            display: true,
+            ticks: {
+              suggestedMin: 0,
+              beginAtZero: true,
+            },
+          },
+        ],
+      },
+    },
+  });
 }
 
 displayProduct();
