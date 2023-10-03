@@ -72,7 +72,7 @@ function handleProductClick({ target }) {
       e.imgClickCount++;
     }
   });
-  voteCounter === 2 ? voteLimiter() : voteCounter++;
+  voteCounter === 24 ? voteLimiter() : voteCounter++;
 
   displayProduct();
 }
@@ -119,24 +119,40 @@ function voteLimiter() {
         {
           label: "Click Count",
           data: chartLabels[1],
+          backgroundColor: [
+            "rgb(255, 99, 132)",
+            "rgb(255, 159, 64)",
+            "rgb(255, 205, 86)",
+            "rgb(75, 192, 192)",
+            "rgb(54, 162, 235)",
+            "rgb(153, 102, 255)",
+            "rgb(201, 203, 207)",
+          ],
+          borderColor: [
+            "rgb(255, 99, 132)",
+            "rgb(255, 159, 64)",
+            "rgb(255, 205, 86)",
+            "rgb(75, 192, 192)",
+            "rgb(54, 162, 235)",
+            "rgb(153, 102, 255)",
+            "rgb(201, 203, 207)",
+          ],
           borderWidth: 1,
           order: 0,
         },
         {
           label: "View Count",
           data: chartLabels[2],
-          borderWidth: 1,
           order: 1,
-          type: "line",
-          fill: false,
-          tension: 0,
-          borderColor: "rgb(255, 0, 0)",
+          type: "bar",
+          backgroundColor: ["rgba(0, 0, 0, 0.2)"],
         },
       ],
       borderWidth: 1,
     },
     options: {
       scales: {
+        x: { stacked: true },
         y: {
           beginAtZero: true, // Start the y-axis at zero
           ticks: {
