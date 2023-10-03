@@ -76,3 +76,9 @@ section {
 p {
   height: 100%;
 }
+
+canvas {
+  height: 100%;
+  width: 100%;
+  grid-column: 1 / span 3;
+}
