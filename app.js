@@ -12,34 +12,15 @@ const ul = document.getElementById("score-counter");
 //vars
 let voteCounter = 0;
 
-function newProduct(productName, imgPath) {
+const allProducts = [];
+
+function NewProduct(productName, imgPath, imgShowCount = 0, imgClickCount = 0) {
   this.productName = productName;
   this.imgPath = imgPath;
-  this.imgShowCount = 0;
-  this.imgClickCount = 0;
+  this.imgShowCount = imgShowCount;
+  this.imgClickCount = imgClickCount;
+  allProducts.push(this);
 }
-
-const allProducts = [
-  new newProduct("Bag", "./assets/bag.jpg"),
-  new newProduct("Banana", "./assets/banana.jpg"),
-  new newProduct("Bathroom", "./assets/bathroom.jpg"),
-  new newProduct("Boots", "./assets/boots.jpg"),
-  new newProduct("Breakfast", "./assets/breakfast.jpg"),
-  new newProduct("Bubblegum", "./assets/bubblegum.jpg"),
-  new newProduct("Chair", "./assets/chair.jpg"),
-  new newProduct("Cthulu", "./assets/cthulhu.jpg"),
-  new newProduct("Dog-duck", "./assets/dog-duck.jpg"),
-  new newProduct("Dragon", "./assets/dragon.jpg"),
-  new newProduct("Pen", "./assets/pen.jpg"),
-  new newProduct("Pet-sweep", "./assets/pet-sweep.jpg"),
-  new newProduct("Scissors", "./assets/scissors.jpg"),
-  new newProduct("Shark", "./assets/shark.jpg"),
-  new newProduct("Sweep", "./assets/sweep.png"),
-  new newProduct("Tauntaun", "./assets/tauntaun.jpg"),
-  new newProduct("Unicorn", "./assets/unicorn.jpg"),
-  new newProduct("Water-can", "./assets/water-can.jpg"),
-  new newProduct("Wine-glass", "./assets/wine-glass.jpg"),
-];
 
 function generateIndex() {
   return Math.floor(Math.random() * allProducts.length);
@@ -72,7 +53,7 @@ function handleProductClick({ target }) {
       e.imgClickCount++;
     }
   });
-  voteCounter === 24 ? voteLimiter() : voteCounter++;
+  voteCounter === 24 ? (voteLimiter(), dataToLocal()) : voteCounter++;
 
   displayProduct();
 }
@@ -158,10 +139,10 @@ function voteLimiter() {
         onComplete: (context) => {
           if (myChartIndex < chartLabels[0].length) {
             context.chart.data.datasets[0].data.push(
-              chartLabels[1][myChartIndex]
+              chartLabels[1][myChartIndex] //push first item of clicks array
             );
             context.chart.data.datasets[1].data.push(
-              chartLabels[2][myChartIndex]
+              chartLabels[2][myChartIndex] //push first item of views array
             );
           }
 
@@ -186,4 +167,43 @@ function voteLimiter() {
   });
 }
 
+function checkLocal() {
+  const getProductsFromLocal = JSON.parse(localStorage.getItem("MyProducts"));
+  console.log(getProductsFromLocal);
+
+  if (getProductsFromLocal) {
+    getProductsFromLocal.forEach(
+      ({ productName, imgPath, imgShowCount, imgClickCount }) => {
+        new NewProduct(productName, imgPath, imgShowCount, imgClickCount);
+      }
+    );
+  } else {
+    new NewProduct("Bag", "./assets/bag.jpg"),
+      new NewProduct("Banana", "./assets/banana.jpg"),
+      new NewProduct("Bathroom", "./assets/bathroom.jpg"),
+      new NewProduct("Boots", "./assets/boots.jpg"),
+      new NewProduct("Breakfast", "./assets/breakfast.jpg"),
+      new NewProduct("Bubblegum", "./assets/bubblegum.jpg"),
+      new NewProduct("Chair", "./assets/chair.jpg"),
+      new NewProduct("Cthulu", "./assets/cthulhu.jpg"),
+      new NewProduct("Dog-duck", "./assets/dog-duck.jpg"),
+      new NewProduct("Dragon", "./assets/dragon.jpg"),
+      new NewProduct("Pen", "./assets/pen.jpg"),
+      new NewProduct("Pet-sweep", "./assets/pet-sweep.jpg"),
+      new NewProduct("Scissors", "./assets/scissors.jpg"),
+      new NewProduct("Shark", "./assets/shark.jpg"),
+      new NewProduct("Sweep", "./assets/sweep.png"),
+      new NewProduct("Tauntaun", "./assets/tauntaun.jpg"),
+      new NewProduct("Unicorn", "./assets/unicorn.jpg"),
+      new NewProduct("Water-can", "./assets/water-can.jpg"),
+      new NewProduct("Wine-glass", "./assets/wine-glass.jpg");
+  }
+}
+
+function dataToLocal() {
+  const allProductsToJsonString = JSON.stringify(allProducts);
+  localStorage.setItem("MyProducts", allProductsToJsonString);
+}
+
+checkLocal();
 displayProduct();
