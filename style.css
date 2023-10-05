@@ -1,7 +1,26 @@
+* {
+  font-family: "Work Sans", sans-serif;
+}
+
 header {
   height: 15vh;
   width: 100vw;
+  padding: 16px;
   background-color: aquamarine;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+header img {
+  height: 100%;
+  aspect-ratio: 1/1;
+  object-fit: contain;
+}
+
+header h1 {
+  font-family: "Work Sans", sans-serif;
+  font-size: 36px;
 }
 
 main {
@@ -89,4 +108,57 @@ canvas {
   object-fit: contain;
 }
 
-/* added something different */
+#mid-section-left {
+  height: 100%;
+  width: 100%;
+
+  grid-row: 2/3;
+  grid-column: 2 / span 2;
+  background-color: burlywood;
+}
+
+#mid-section-right {
+  height: 100%;
+  width: 100%;
+
+  grid-row: 2/3;
+  grid-column: 4 / 5;
+  background-color: rgb(248, 143, 6);
+}
+
+#movable-div {
+  position: absolute;
+  z-index: -9;
+  background-image: url("./assets/rapides-sonic-super-rapido.gif");
+  /* background-color: black; */
+  width: 450px;
+  height: 450px;
+  object-fit: contain;
+  transform-origin: bottom center;
+  translate: -50% -100%;
+  scale: 0.2;
+
+  animation: rotate linear 5s infinite;
+}
+
+#chart-page {
+  overflow: hidden;
+}
+
+@keyframes rotate {
+  /* where does it begin  */
+
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+  /* Where does it go to  */
+}
+
+#main-two {
+  height: 80vh;
+  width: 100vw;
+}
