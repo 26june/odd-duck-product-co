@@ -106,7 +106,6 @@ function voteLimiter() {
 
 function checkLocal() {
   const getProductsFromLocal = JSON.parse(localStorage.getItem("MyProducts"));
-  console.log(getProductsFromLocal);
 
   if (getProductsFromLocal) {
     getProductsFromLocal.forEach(
