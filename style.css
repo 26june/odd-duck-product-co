@@ -54,10 +54,20 @@ section {
   margin: 16px;
 }
 
+table,
+th,
+td {
+  border: 1px solid;
+  border-collapse: collapse;
+  width: 100%;
+  padding: 8px;
+}
+
 #text-content {
   grid-column: 2 / span 3;
   grid-row: 3 / 4;
   background-color: lightgreen;
+  padding: 8px;
 }
 
 #grid-area img {
@@ -84,12 +94,18 @@ section {
   min-height: 100%;
   min-width: 100%;
 
+  border: 8px solid transparent;
+
   max-height: 100%;
   max-width: 100%;
 
   align-self: center;
   justify-self: center;
   object-fit: fill;
+}
+
+#imgSection img:hover {
+  border: 8px solid #ff6f6c;
 }
 
 p {
@@ -109,12 +125,18 @@ canvas {
 }
 
 #mid-section-left {
+  display: flex;
   height: 100%;
   width: 100%;
 
   grid-row: 2/3;
   grid-column: 2 / span 2;
   background-color: burlywood;
+
+  font-size: 24px;
+
+  justify-content: center;
+  align-items: center;
 }
 
 #mid-section-right {
@@ -123,12 +145,14 @@ canvas {
 
   grid-row: 2/3;
   grid-column: 4 / 5;
-  background-color: rgb(248, 143, 6);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #movable-div {
   position: absolute;
-  z-index: -9;
   background-image: url("./assets/rapides-sonic-super-rapido.gif");
   /* background-color: black; */
   width: 450px;
@@ -139,6 +163,8 @@ canvas {
   scale: 0.2;
 
   animation: rotate linear 5s infinite;
+
+  pointer-events: none;
 }
 
 #chart-page {

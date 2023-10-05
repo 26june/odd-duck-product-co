@@ -72,3 +72,13 @@ new Chart("chart-area", {
     },
   },
 });
+
+let movingDiv = document.getElementById("movable-div");
+document.addEventListener("mousemove", handleMouseMove);
+
+function handleMouseMove(e) {
+  const { clientX, clientY } = e;
+
+  movingDiv.style.left = `${clientX}px`;
+  movingDiv.style.top = `${clientY}px`;
+}

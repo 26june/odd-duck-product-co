@@ -6,8 +6,11 @@ const leftImage = document.getElementById("left");
 const midImage = document.getElementById("mid");
 const rightImage = document.getElementById("right");
 
+//mid section tag
+const midSection = document.getElementById("mid-section-left");
+
 //ul
-const ul = document.getElementById("score-counter");
+const webTable = document.getElementById("score-counter");
 
 //vars
 let voteCounter = 0;
@@ -62,6 +65,10 @@ function displayProduct() {
   allProducts[currentIndex[0]].imgShowCount++;
   allProducts[currentIndex[1]].imgShowCount++;
   allProducts[currentIndex[2]].imgShowCount++;
+
+  voteCounter === 25
+    ? (midSection.textContent = `You have finished voting`)
+    : (midSection.textContent = `You have ${25 - voteCounter} votes remaining`);
 }
 
 imgSection.addEventListener("click", handleProductClick);
@@ -72,36 +79,62 @@ function handleProductClick({ target }) {
       e.imgClickCount++;
     }
   });
-  voteCounter === 24 ? (voteLimiter(), dataToLocal()) : voteCounter++;
+
+  voteCounter === 24
+    ? (voteLimiter(), dataToLocal(), voteCounter++)
+    : voteCounter++;
 
   displayProduct();
 }
 
 function showScore() {
-  if (ul.children.length !== 0) {
-    ul.innerHTML = "";
+  if (webTable.children.length !== 0) {
+    webTable.innerHTML = "";
   }
 
+  const tr = document.createElement("tr");
+  let td1 = document.createElement("td");
+  td1.textContent = "Product";
+  let td2 = document.createElement("td");
+  td2.textContent = "Views";
+  let td3 = document.createElement("td");
+  td3.textContent = "Click";
+  tr.appendChild(td1);
+  tr.appendChild(td2);
+  tr.appendChild(td3);
+  webTable.appendChild(tr);
+
   for (let i = 0; i < allProducts.length; i++) {
-    let { productName, imgShowCount, imgClickCount } = allProducts[i];
+    let wantedProps = [
+      allProducts[i].productName,
+      allProducts[i].imgShowCount,
+      allProducts[i].imgClickCount,
+    ];
 
-    const li = document.createElement("li");
+    const tr = document.createElement("tr");
 
-    li.textContent = `${productName} [View: ${imgShowCount}, Clicks: ${imgClickCount}]`;
-    ul.appendChild(li);
+    wantedProps.forEach((element) => {
+      let td = document.createElement("td");
+      td.textContent = element;
+      tr.appendChild(td);
+    });
+
+    webTable.appendChild(tr);
   }
 }
 
 function voteLimiter() {
   //Limits vote / Start Chart JS
-  imgSection.removeEventListener("click", handleProductClick);
-  showScore();
+
   imgSection.innerHTML = "";
 
   const myLink = document.createElement("a");
   myLink.textContent = "Go to Page 2";
   myLink.setAttribute("href", "/chart.html");
   imgSection.appendChild(myLink);
+  midSection.textContent = `You have finished voting`;
+
+  showScore();
 }
 
 function checkLocal() {
@@ -143,3 +176,8 @@ function dataToLocal() {
 
 checkLocal();
 displayProduct();
+
+//left section should be current stats
+//mid empty section should be votes left count
+//border highlight on hovered image
+//vote percentage on pg2?
