@@ -22,27 +22,46 @@ function NewProduct(productName, imgPath, imgShowCount = 0, imgClickCount = 0) {
   allProducts.push(this);
 }
 
-function generateIndex() {
+function generateRandom() {
   return Math.floor(Math.random() * allProducts.length);
 }
 
-function displayProduct() {
-  let i = generateIndex();
-  let j = generateIndex();
-  let k = generateIndex();
+function generateIndex() {
+  let i = generateRandom();
+  let j = generateRandom();
+  let k = generateRandom();
 
   while (i === j || i === k || j === k) {
-    j = generateIndex();
-    k = generateIndex();
+    j = generateRandom();
+    k = generateRandom();
   }
 
-  leftImage.src = leftImage.alt = allProducts[i].imgPath;
-  midImage.src = midImage.alt = allProducts[j].imgPath;
-  rightImage.src = rightImage.alt = allProducts[k].imgPath;
+  return [i, j, k];
+}
 
-  allProducts[i].imgShowCount++;
-  allProducts[j].imgShowCount++;
-  allProducts[k].imgShowCount++;
+let prevIndex = [];
+
+function displayProduct() {
+  let duplicateCheck;
+  let currentIndex;
+
+  while (duplicateCheck !== -3) {
+    duplicateCheck = 0;
+    currentIndex = generateIndex();
+    currentIndex.forEach((e) => {
+      duplicateCheck += prevIndex.indexOf(e);
+    });
+  }
+
+  prevIndex = currentIndex;
+
+  leftImage.src = leftImage.alt = allProducts[currentIndex[0]].imgPath;
+  midImage.src = midImage.alt = allProducts[currentIndex[1]].imgPath;
+  rightImage.src = rightImage.alt = allProducts[currentIndex[2]].imgPath;
+
+  allProducts[currentIndex[0]].imgShowCount++;
+  allProducts[currentIndex[1]].imgShowCount++;
+  allProducts[currentIndex[2]].imgShowCount++;
 }
 
 imgSection.addEventListener("click", handleProductClick);
@@ -79,92 +98,10 @@ function voteLimiter() {
   showScore();
   imgSection.innerHTML = "";
 
-  const myCanvas = document.createElement("canvas"); //make canvas element
-  myCanvas.setAttribute("id", "chart-area"); // put and id on the canvas
-  imgSection.appendChild(myCanvas); // appended canvas to section+
-
-  const chartLabels = [[], [], []];
-  allProducts.forEach((e) => {
-    chartLabels[0].push(e.productName);
-    chartLabels[1].push(e.imgClickCount);
-    chartLabels[2].push(e.imgShowCount);
-  });
-
-  let myChartIndex = 0;
-  let animComplete;
-
-  const data = {
-    labels: chartLabels[0],
-    datasets: [
-      {
-        label: "Click Count",
-        data: [],
-        backgroundColor: [
-          "rgb(255, 99, 132)",
-          "rgb(255, 159, 64)",
-          "rgb(255, 205, 86)",
-          "rgb(75, 192, 192)",
-          "rgb(54, 162, 235)",
-          "rgb(153, 102, 255)",
-          "rgb(201, 203, 207)",
-        ],
-        borderColor: [
-          "rgb(255, 99, 132)",
-          "rgb(255, 159, 64)",
-          "rgb(255, 205, 86)",
-          "rgb(75, 192, 192)",
-          "rgb(54, 162, 235)",
-          "rgb(153, 102, 255)",
-          "rgb(201, 203, 207)",
-        ],
-        borderWidth: 1,
-        order: 0,
-      },
-      {
-        label: "View Count",
-        data: [],
-        order: 1,
-        type: "bar",
-        backgroundColor: ["rgba(0, 0, 0, 0.2)"],
-      },
-    ],
-    borderWidth: 1,
-  };
-
-  new Chart("chart-area", {
-    type: "bar",
-    data: data,
-    options: {
-      animation: {
-        onComplete: (context) => {
-          if (myChartIndex < chartLabels[0].length) {
-            context.chart.data.datasets[0].data.push(
-              chartLabels[1][myChartIndex] //push first item of clicks array
-            );
-            context.chart.data.datasets[1].data.push(
-              chartLabels[2][myChartIndex] //push first item of views array
-            );
-          }
-
-          myChartIndex < chartLabels[0].length
-            ? myChartIndex++
-            : (animComplete = true);
-
-          animComplete ? null : context.chart.update();
-        },
-        delay: 0,
-      },
-      scales: {
-        x: { stacked: true },
-        y: {
-          beginAtZero: true, // Start the y-axis at zero
-          ticks: {
-            stepSize: 1, // Set the step size to 1 for whole numbers
-          },
-        },
-      },
-    },
-  });
+  const myLink = document.createElement("a");
+  myLink.textContent = "Go to Page 2";
+  myLink.setAttribute("href", "/chart.html");
+  imgSection.appendChild(myLink);
 }
 
 function checkLocal() {
